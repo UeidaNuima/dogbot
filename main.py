@@ -20,7 +20,7 @@ def bot_main():
 
 
 def web_main():
-    app.run(threaded=True)
+    app.run(host='0.0.0.0', threaded=True)
 
 if __name__ == '__main__':
     connect(config.get('db'))
