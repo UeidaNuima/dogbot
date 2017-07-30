@@ -266,7 +266,7 @@ def status(bot, message):
     例:
         #status 狗蛋
         #status 猫又 (猫又是职业)
-        #status -r 黑风水 (将被拆成黑+风水)
+        #status 黑风水 (将被拆成黑+风水)
     """
     try:
         cmd, *args = shlex.split(message.text)
