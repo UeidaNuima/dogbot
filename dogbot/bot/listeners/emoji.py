@@ -90,7 +90,7 @@ def emoji_base(bot, message):
         path = os.path.join(dir, filename)
         if not os.path.exists(dir):
             os.mkdir(dir)
-        cqimg = os.path.join(config['cq_root_dir'], filename + '.cqimg')
+        cqimg = os.path.join(config['cq_root_dir'], config['cq_image_dir'], filename + '.cqimg')
         parser = ConfigParser()
         parser.read(cqimg)
         url = parser['image']['url']
