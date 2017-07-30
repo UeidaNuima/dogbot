@@ -248,8 +248,9 @@ def status_worker(bot, message, name, refresh):
         except UnitException as e:
             reply(bot, message, str(e))
             return
-        except:
+        except Exception as e:
             reply(bot, message, '汪汪汪? 可能是网络问题, 重试一下吧')
+            raise e
             return
         image.save(full_path)
     reply(bot, message, CQImage(os.path.join("unit", name + ".png")))
@@ -364,8 +365,9 @@ def conne_worker(bot, message, names, full=False, sorter=None):
         hidden_fields = []
     try:
         inexistence, image = get_conne_pic(names, sorter, hidden_fields)
-    except:
+    except Exception as e:
         reply(bot, message, '汪汪汪? 可能是网络问题, 重试一下吧')
+        raise e
         return
     if inexistence:
         # 有没找到的话提示哪些没找到ff
