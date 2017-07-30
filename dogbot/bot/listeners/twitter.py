@@ -42,7 +42,7 @@ def twitter(bot, message):
             # 帮助
             reply(bot, message, twitter.__doc__)
             return True
-    tweets = Twitter.objects(Q(date__gte=datetime.now().date() + timedelta(days=-days)), Q(date__lte=datetime.now().date() + timedelta(days=-days+1)))
+    tweets = Twitter.objects(Q(date__gte=datetime.now().date()+timedelta(days=-days)) & Q(date__lte=datetime.now().date()+timedelta(days=-days+1)))
 
     if tweets:
         reply(bot, message, '\n---------\n'.join([str(tweet) for tweet in tweets]))
