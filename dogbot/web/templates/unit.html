@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% macro list_parser(list) %}[ {% for val in list %}"{{ val }}"{% if not loop.last %},{% endif %}{% endfor %} ]{% endmacro %}
+
+{% block style %}
+    <style>
+        td.no-padding {
+            padding: 0!important;
+        }
+
+        form {
+            padding: 8px;
+        }
+
+        .rarity-0 {
+            color: black;
+            background-color: gray;
+        }
+
+        .rarity-1 {
+            color: white;
+            background-color: brown;
+        }
+
+        .rarity-2 {
+            color: black;
+            background-color: silver;
+        }
+
+        .rarity-3 {
+            color: black;
+            background-color: gold;
+        }
+
+        .rarity-4 {
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+        }
+        .rarity-5 {
+            color: white;
+            background-color: black;
+        }
+        .rarity-6 {
+            color: white;
+            background-color: blue;
+        }
+        .rarity-display {
+            text-align: center;
+            border-radius: 100px;
+        }
+        .rarity-option{
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 0.5em;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="dog-page-header">
+    <div class="container">
+        <h1>单位表</h1>
+        <p>主要用于单位属性和职业总敲成单位的zz</p>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-striped" id="unitTable" data-sorting="true" data-paging="true" data-filtering="true">
+        <thead>
+        <tr>
+            <th data-name="id" data-visible="false">#</th>
+            <th data-name="name">单位名</th>
+            <th data-name="rarity" data-type="number" data-formatter="rarityFormatter">稀有度</th>
+            <th data-name="class" data-type="array" data-formatter="classFormatter">职业</th>
+            <th data-name="nickname" data-type="array" data-formatter="listBadgeFormatter" data-breakpoints="xs">昵称</th>
+            <th data-name="conneName">圆爹名(正则)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for unit in units %}
+            <tr>
+                <td data-value="{{ unit.id }}">{{ loop.index }}</td>
+                <td>{{ unit.name }}</td>
+                <td>{{ unit.rarity }}</td>
+                <td>["{{ unit.class_.id }}", "{{ unit.class_.translate }}"]</td>
+                <td>{{ list_parser(unit.nickname) }}</td>
+                <td>{{ unit.conne_name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="editor-modal" role="dialog" aria-labelledby="editor-title">
+    <style scoped>
+		/* provides a red astrix to denote required fields - this should be included in common stylesheet */
+		.form-group.required .control-label:after {
+			content:"*";
+			color:red;
+			margin-left: 4px;
+		}
+	</style>
+    <div class="modal-dialog" role="document">
+		<form class="modal-content form-horizontal" id="editor" method="post">
+            <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="editor-title">Add Row</h4>
+			</div>
+            <div class="modal-body">
+                <input type="text" id="id" name="id" class="hidden"/>
+                <div class="form-group required">
+                    <label for="name" class="col-sm-3 control-label">职业名</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rarity" class="col-sm-3 control-label">稀有度</label>
+                    <div class="col-sm-9">
+                        <select class="form-control select2 select2-rarity" id="rarity" name="rarity">
+                            <option value="">-</option>
+                            <option value="0">铁</option>
+                            <option value="1">铜</option>
+                            <option value="2">银</option>
+                            <option value="3">金</option>
+                            <option value="4">白</option>
+                            <option value="5">黑</option>
+                            <option value="6">蓝</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="class" class="col-sm-3 control-label">职业</label>
+                    <div class="col-sm-9">
+                        <select class="form-control select2 select2-material" id="class" name="class">
+                            <option value="">-</option>
+                            {% for class in classes %}
+                                <option value="{{ class.id }}">{{ class.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nickname" class="col-sm-3 control-label">昵称</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control select2" id="nickname" name="nickname" multiple="multiple"></select>
+                    </div>
+                </div>
+                <div class="form-group required">
+                    <label for="conneName" class="col-sm-3 control-label">圆爹名</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="conneName" name="conneName" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+
+    $('.select2-material').select2({
+        theme: "bootstrap",
+        width: '100%'
+    });
+    
+    function selectionFormatState(state) {
+        if (!state.id) { return state.text; }
+        return $('<span class="rarity-option rarity-' + state.element.value + '"></span><span>' + state.text + '</span>');
+    }
+
+    $('.select2-rarity').select2({
+        theme: "bootstrap",
+        width: '100%',
+        templateResult: selectionFormatState,
+        templateSelection: selectionFormatState
+    });
+
+    $('#nickname').select2({
+        theme: "bootstrap",
+        width: '100%',
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
+
+    var $modal = $('#editor-modal'),
+        $editor = $('#editor'),
+        $editorTitle = $('#editor-title');
+
+    function listBadgeFormatter(value, options, rowData) {
+        var html = '';
+        for(var i = 0; i < value.length; i++){
+            html += '<span class="label label-success">' + value[i] + '</span> '
+        }
+        return html;
+    }
+
+    function objectBadgeFormatter(value, options, rowData) {
+        var html = '';
+        for(var i = 0; i < value.length; i++){
+            html += '<span class="label label-success">' + value[i][1] + '</span> '
+        }
+        return html;
+    }
+
+    function rarityFormatter(value, options, rowData) {
+        return '<div class="rarity-display rarity-' + value + '">' + ('铁铜银金白黑蓝'[value]? '铁铜银金白黑蓝'[value]: '') + '</div>';
+    }
+
+    function classFormatter(value, options, rowData) {
+        return value[1];
+    }
+
+{#    function rarityFromatter(value, options, rowData) {#}
+{#        return #}
+{#    }#}
+
+    FooTable.init('#unitTable',{
+        paging: {
+                size: 50
+        },
+        editing: {
+            enabled: true,
+            addText: '增加',
+            addRow: function(){
+                $modal.removeData('row');
+                $editor[0].reset();
+                $editor.find('#nickname').html(null);
+                $editor.find('.select2').trigger("change");
+                $editorTitle.text('增加单位');
+                $modal.modal('show');
+            },
+            editRow: function (row) {
+                var values = row.val();
+                console.log(values);
+                $editor.find('#id').val(values.id);
+                $editor.find('#name').val(values.name);
+                $editor.find('#rarity').val(values.rarity);
+                $editor.find('#class').val(values.class);
+
+                $editor.find('#nickname').html(null);
+                for(var i = 0; i < values.nickname.length; i++) {
+                    $editor.find('#nickname')[0].add(new Option(values.nickname[i], values.nickname[i]));
+                }
+                $editor.find('#nickname').val(values.nickname);
+                $editor.find('#conneName').val(values.conneName);
+
+                $editor.find('.select2').trigger("change");
+                $modal.data('row', row);
+                $editorTitle.text('编辑 ' + values.name);
+                $modal.modal('show');
+            },
+            deleteRow: function (row) {
+                var values = row.val();
+                if(confirm('真的要删除[' + values.name + ']吗?')){
+                    $.ajax({
+                        method: 'POST',
+                        data: {
+                            id: values.id,
+                            action: 'delete'
+                        },
+                        success: function (data) {
+                            row.delete();
+                        }
+                    });
+                }
+            },
+            alwaysShow: true
+        }
+    });
+
+    </script>
+{% endblock %}

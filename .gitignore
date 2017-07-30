@@ -1,0 +1,5 @@
+config.py
+venv/
+tests/
+dogbot/sqlmove.py
+.idea/workspace.xml

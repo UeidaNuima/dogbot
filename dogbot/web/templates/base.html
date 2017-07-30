@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ケルベロス</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="//cdn.bootcss.com/select2/4.0.3/css/select2.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-footable/3.1.6/footable.bootstrap.min.css" rel="stylesheet">
+    <style>
+        .dog-page-header {
+            background: #5cb85c;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        .dog-page-header h1 {
+            margin-top: 0;
+            color: white;
+            font-size: 50px;
+        }
+
+        .dog-page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 20px;
+        }
+
+        .dog-navbar {
+            margin-bottom: 0;
+        }
+
+        .dog-navbar .navbar-brand {
+            color: #5cb85c;
+        }
+
+        .dog-navbar .navbar-nav>li>a {
+            color: #5cb85c;
+        }
+
+        .dog-navbar .navbar-toggle .icon-bar {
+            background-color: #5cb85c;
+        }
+
+        .dog-navbar .navbar-toggle:focus, .dog-navbar .navbar-toggle:hover {
+            background-color: #f9f9f9;
+            border-color: #f9f9f9;
+        }
+    </style>
+    {% block style %}{% endblock %}
+</head>
+<body>
+<nav class="navbar dog-navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">ケルベロス</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('classes') }}">职业表</a></li>
+                <li><a href="{{ url_for('units') }}">单位表</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block content %}{% endblock %}
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="//cdn.bootcss.com/select2/4.0.3/js/select2.full.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-footable/3.1.6/footable.min.js"></script>
+{% block script %}{% endblock %}
+</body>
+</html>

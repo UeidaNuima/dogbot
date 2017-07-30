@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% macro class_list_parser(list) %}[ {% for class in list %}["{{ class.id }}","{{ class.translate }}"]{% if not loop.last %},{% endif %}{% endfor %} ]{% endmacro %}
+{% macro list_parser(list) %}[ {% for val in list %}"{{ val }}"{% if not loop.last %},{% endif %}{% endfor %} ]{% endmacro %}
+
+{% block style %}
+    <style>
+        td.no-padding {
+            padding: 0!important;
+        }
+        form {
+            padding: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="dog-page-header">
+    <div class="container">
+        <h1>职业表</h1>
+        <p>主要用于素材相关的查询</p>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-striped" id="classTable" data-sorting="true" data-paging="true" data-filtering="true">
+        <thead>
+        <tr>
+            <th data-name="id" data-visible="false">#</th>
+            <th data-name="name">职业名</th>
+            <th data-name="nickname" data-type="array" data-formatter="listBadgeFormatter" data-breakpoints="xs">昵称</th>
+            <th data-name="translate">翻译</th>
+            <th data-name="CCMaterial" data-type="array" data-formatter="objectBadgeFormatter" data-breakpoints="sm xs">CC素材</th>
+            <th data-name="awakeMaterial" data-type="array" data-formatter="objectBadgeFormatter" data-breakpoints="sm xs">觉醒素材</th>
+            <th data-name="awakeOrb" data-type="array" data-formatter="objectBadgeFormatter" data-breakpoints="sm xs">觉醒珠子</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for class in classes %}
+            <tr data-value="{{ class.id }}">
+            <td data-value="{{ class.id }}">{{ loop.index }}</td>
+            <td>{{ class.name }}</td>
+            <td>{{ list_parser(class.nickname) }}</td>
+            <td>{{ class.translate }}</td>
+            <td>{{ class_list_parser(class.cc_material) }}</td>
+            <td>{{ class_list_parser(class.awake_material) }}</td>
+            <td>{{ class_list_parser(class.awake_orb) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="editor-modal" role="dialog" aria-labelledby="editor-title">
+    <style scoped>
+		/* provides a red astrix to denote required fields - this should be included in common stylesheet */
+		.form-group.required .control-label:after {
+			content:"*";
+			color:red;
+			margin-left: 4px;
+		}
+	</style>
+    <div class="modal-dialog" role="document">
+		<form class="modal-content form-horizontal" id="editor" method="post">
+            <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="editor-title">Add Row</h4>
+			</div>
+            <div class="modal-body">
+                <input type="text" id="id" name="id" class="hidden"/>
+                <div class="form-group required">
+                    <label for="name" class="col-sm-3 control-label">职业名</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nickname" class="col-sm-3 control-label">昵称</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control select2" id="nickname" name="nickname" multiple="multiple"></select>
+                    </div>
+                </div>
+                <div class="form-group required">
+                    <label for="translate" class="col-sm-3 control-label">翻译</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="translate" name="translate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">cc素材</label>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="CCMaterial1" name="CCMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="CCMaterial2" name="CCMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="CCMaterial3" name="CCMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">觉醒素材</label>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="awakeMaterial1" name="awakeMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="awakeMaterial2" name="awakeMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="awakeMaterial3" name="awakeMaterial">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">觉醒珠子</label>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="awakeOrb1" name="awakeOrb">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select type="text" class="form-control select2 select2-material" id="awakeOrb2" name="awakeOrb">
+                            <option value="">-</option>
+                            {% for class_ in classes %}
+                                <option value="{{ class_.id }}">{{ class_.translate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+
+    $('.select2-material').select2({
+        theme: "bootstrap",
+        width: '100%'
+    });
+
+
+    $('#nickname').select2({
+        theme: "bootstrap",
+        width: '100%',
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
+
+    var $modal = $('#editor-modal'),
+        $editor = $('#editor'),
+        $editorTitle = $('#editor-title');
+
+    function listBadgeFormatter(value, options, rowData) {
+        var html = '';
+        for(var i = 0; i < value.length; i++){
+            html += '<span class="label label-success">' + value[i] + '</span> '
+        }
+        return html;
+    }
+
+    function objectBadgeFormatter(value, options, rowData) {
+        var html = '';
+        for(var i = 0; i < value.length; i++){
+            html += '<span class="label label-success">' + value[i][1] + '</span> '
+        }
+        return html;
+    }
+
+    FooTable.init('#classTable',{
+        editing: {
+            enabled: true,
+            addText: '增加',
+            addRow: function(){
+                $modal.removeData('row');
+                $editor[0].reset();
+                $editor.find('#nickname').html(null);
+                $editor.find('.select2').trigger("change");
+                $editorTitle.text('增加职业');
+                $modal.modal('show');
+            },
+            editRow: function (row) {
+                var values = row.val();
+                $editor.find('#id').val(values.id);
+                $editor.find('#name').val(values.name);
+                $editor.find('#nickname').html(null);
+                for(var i = 0; i < values.nickname.length; i++) {
+                    $editor.find('#nickname')[0].add(new Option(values.nickname[i], values.nickname[i]));
+                }
+                $editor.find('#nickname').val(values.nickname);
+                $editor.find('#translate').val(values.translate);
+
+                try {
+                    $editor.find('#CCMaterial1').val(values.CCMaterial[0][0]);
+                    $editor.find('#CCMaterial2').val(values.CCMaterial[1][0]);
+                    $editor.find('#CCMaterial3').val(values.CCMaterial[2][0]);
+                } catch (err) {}
+
+                try {
+                    $editor.find('#awakeMaterial1').val(values.awakeMaterial[0][0]);
+                    $editor.find('#awakeMaterial2').val(values.awakeMaterial[1][0]);
+                    $editor.find('#awakeMaterial3').val(values.awakeMaterial[2][0]);
+                } catch (err) {}
+
+                try {
+                    $editor.find('#awakeOrb1').val(values.awakeOrb[0][0]);
+                    $editor.find('#awakeOrb2').val(values.awakeOrb[1][0]);
+                    $editor.find('#awakeOrb3').val(values.awakeOrb[2][0]);
+                } catch (err) {}
+
+                $editor.find('.select2').trigger("change");
+                $modal.data('row', row);
+                $editorTitle.text('编辑 ' + values.name);
+                $modal.modal('show');
+            },
+            deleteRow: function (row) {
+                var values = row.val();
+                if(confirm('真的要删除[' + values.name + ']吗?')){
+                    $.ajax({
+                        method: 'POST',
+                        data: {
+                            id: values.id,
+                            action: 'delete'
+                        },
+                        success: function (data) {
+                            row.delete();
+                        }
+                    });
+                }
+            },
+            alwaysShow: true
+        }
+    });
+
+    </script>
+{% endblock %}
