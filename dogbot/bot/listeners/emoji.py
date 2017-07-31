@@ -30,7 +30,9 @@ def emoji_base(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'emoji':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'emoji':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hd:')
@@ -126,7 +128,9 @@ def emoji_del(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'emoji_del':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'emoji_del':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hs:')
@@ -194,7 +198,9 @@ def emoji_alias(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'emoji_alias':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'emoji_alias':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hrd:')

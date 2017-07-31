@@ -22,7 +22,9 @@ def roll(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'roll':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'roll':
         return False
 
     # texts = RE_CQ_SPECIAL.sub('', message.text).split()

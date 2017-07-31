@@ -21,7 +21,9 @@ def alias_command(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'alias':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'alias':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hd:')
@@ -86,7 +88,9 @@ def unalias_command(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'unalias':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'unalias':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hd:')
@@ -141,12 +145,14 @@ def help(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'help':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'help':
         return False
     msg = ['ケルベロス ver3.0']
     msg_help = []
     for listener in bot.listeners:
-        if listener.handler.__doc__ and listener.handler.__doc__[0] == config['splitter']:
+        if listener.handler.__doc__ and listener.handler.__doc__[0] in config['trigger']:
             msg_help.append(listener.handler.__doc__.split('\n')[0])
     # 给命令排个序
     msg.extend(sorted(msg_help))

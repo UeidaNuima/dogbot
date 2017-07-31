@@ -3,7 +3,7 @@ config = {
     ],
     "cq_root_dir": "",
     "cq_image_dir": "",
-    "splitter": "#",
+    "trigger": "#",
     "proxies": {
         'http': 'socks5://127.0.0.1:1080',
         'https': 'socks5://127.0.0.1:1080'

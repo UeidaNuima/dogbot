@@ -272,7 +272,9 @@ def status(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'status':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'status':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hf')
@@ -398,7 +400,9 @@ def conne(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'conne':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'conne':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hfs:')

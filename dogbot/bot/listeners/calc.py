@@ -17,7 +17,9 @@ def calc(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'calc':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'calc':
         return False
 
     args = ''.join(args)

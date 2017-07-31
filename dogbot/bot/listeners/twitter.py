@@ -18,7 +18,9 @@ def twitter(bot, message):
         cmd, *args = shlex.split(message.text)
     except ValueError:
         return False
-    if not cmd == config['splitter'] + 'twitter':
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'twitter':
         return False
     try:
         options, args = getopt.gnu_getopt(args, 'hp:')
