@@ -49,7 +49,13 @@ def classes():
 def units():
     if request.method == 'POST':
         if not request.form.get('id'):
-            pass
+            unit = Unit(
+                name=request.form.get('name'),
+                rarity=request.form.get('name'),
+                class_=Class.objects(id=request.form.get('class')).first() if request.form.get('class') else None,
+                nickname=request.form.getlist('nickname'),
+                conne_name=request.form.get('conneName')
+            )
         elif request.form.get('action'):
             # 删除
             unit = Unit.objects(id=request.form.get('id')).first()
@@ -58,7 +64,7 @@ def units():
         else:
             unit = Unit.objects(id=request.form.get('id')).first()
             unit.name = request.form.get('name')
-            unit.rarity = request.form.get('rarity') if request.form.get('rarity') else None
+            unit.rarity = request.form.get('rarity')
             unit.class_ = Class.objects(id=request.form.get('class')).first() if request.form.get('class') else None
             unit.nickname = request.form.getlist('nickname')
             unit.conne_name = request.form.get('conneName')
