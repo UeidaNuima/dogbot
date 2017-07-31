@@ -153,6 +153,8 @@ def help(bot, message):
     msg.append('-----')
     for alias in Alias.objects:
         msg.append('{} => {}'.format(alias.alias, alias.origin))
+    msg.append('-----')
+    msg.append(config.get('extra_comments'))
     reply(bot, message, '\n'.join(msg))
     return True
 
