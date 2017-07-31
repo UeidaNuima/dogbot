@@ -103,7 +103,10 @@ def emoji_base(bot, message):
     emoji.emoji.append(content)
     emoji.save()
 
-    msg = '[{}]现在对应以下内容: \n{}'.format(','.join(emoji.name), '[' + '];['.join(emoji.emoji) + ']')
+    if len(emoji.emoji) > 10:
+        msg = '[{}]现在含有{}个emoji'.format(','.join(emoji.name),str(len(emoji.emoji)))
+    else:
+        msg = '[{}]现在对应以下内容: \n{}'.format(','.join(emoji.name), '[' + '];['.join(emoji.emoji) + ']')
     reply(bot, message, msg)
 
 
