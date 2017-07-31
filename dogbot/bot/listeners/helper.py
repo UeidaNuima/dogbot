@@ -161,6 +161,7 @@ def help(bot, message):
         msg.append('{} => {}'.format(alias.alias, alias.origin))
     msg.append('-----')
     msg.append(config.get('extra_comments'))
+    msg.append('前导触发器可以是: {}'.format(config['trigger']))
     reply(bot, message, '\n'.join(msg))
     return True
 
