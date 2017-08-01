@@ -4,9 +4,6 @@ import requests
 from config import config
 from datetime import timezone, timedelta, datetime
 from dogbot.cqsdk import CQImage
-import threading
-from importlib import reload
-reload(threading)
 
 
 class Exp(Document):
