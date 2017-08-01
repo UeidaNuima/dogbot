@@ -9,7 +9,7 @@ from dogbot.models import Twitter
 
 
 def twitter(bot, message):
-    """用法: #twitter [-p 天数]
+    """#twitter [-p 天数]
 
     -p : 几天以前
     """
