@@ -447,6 +447,17 @@ def conne(bot, message):
             if class_:
                 target = Unit.objects(Q(class_=class_) & Q(rarity__gte=3))
 
+        # 看看是不是稀有度 + 职业名
+        if not target:
+            rarity = RARITY.find(target_name[:1])
+            if not rarity == -1:
+                class_name = target_name[1:]
+                class_ = Class.objects(Q(name=class_name) | Q(translate=class_name) | Q(nickname=class_name)).first()
+                if not class_:
+                    reply(bot, message, '没找到职业{}'.format(class_name))
+                    return True
+                target = Unit.objects(Q(class_=class_) & Q(rarity=rarity))
+
         if not target:
             reply(bot, message, '找不到单位{}...'.format(target_name))
             return True
