@@ -52,7 +52,7 @@ def poll_twitter(bot):
         tweet.save()
         print(str(tweet))
         for g in config.get('notify_groups', []):
-            bot.send(SendGroupMessage(group=g, text=text))
+            bot.send(SendGroupMessage(group=g, text=str(tweet)))
 
 
 if __name__ == '__main__':
