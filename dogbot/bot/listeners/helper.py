@@ -61,6 +61,7 @@ def alias_command(bot, message):
         if not alias:
             reply(bot, message, '没找到别名{}'.format(command))
             return True
+        alias = alias[0]
         msg = '{} => {}'.format(alias.alias, alias.origin)
         reply(bot, message, msg)
         return True

@@ -174,7 +174,7 @@ def emoji_del(bot, message):
         index -= 1
         if len(emoji.emoji) > index:
             if len(emoji.emoji) == 1:
-                reply(bot, message, '名称{}只含有一个emoji了, 如果想要删除该emoji请使用emoji_del命令'.format(emoji.name))
+                reply(bot, message, '名称{}只含有一个emoji了, 如果想要删除该emoji请使用emoji_del命令直接删除'.format(emoji.name))
                 return True
             del emoji.emoji[index]
             emoji.save()
