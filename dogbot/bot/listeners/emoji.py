@@ -173,7 +173,7 @@ def emoji_del(bot, message):
     else:
         index -= 1
         if len(emoji.emoji) > index:
-            if len(emoji.emoji) == 0:
+            if len(emoji.emoji) == 1:
                 reply(bot, message, '名称{}只含有一个emoji了, 如果想要删除该emoji请使用emoji_del命令'.format(emoji.name))
                 return True
             del emoji.emoji[index]
@@ -235,7 +235,7 @@ def emoji_alias(bot, message):
         return True
 
     if delete:
-        if len(emoji.name) == 0:
+        if len(emoji.name) == 1:
             reply(bot, message, '名称{}只含有一个名称了, 如果想要删除该emoji请使用emoji_del命令'.format(name))
             return True
         index = emoji.name.index(name)
