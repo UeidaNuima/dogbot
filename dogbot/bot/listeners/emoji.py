@@ -98,6 +98,9 @@ def emoji_base(bot, message):
         url = parser['image']['url']
         r = requests.get(url, timeout=30, proxies=config.get('proxies', {}))
         # 下载
+        if r.status_code > 200:
+            reply(bot, message, '下挂了...网络问题？')
+            return True
         with open(path, 'wb') as f:
             f.write(r.content)
 
