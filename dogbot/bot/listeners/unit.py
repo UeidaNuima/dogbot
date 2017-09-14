@@ -215,13 +215,15 @@ def get_conne_pic(names, sorter=None, hidden_fields=[14, 15, 16, 20, 24]):
          'td,th{{vertical-align:middle}}'
          'tr.hyde {{display: table-row;}}'
          'body{{font-size: 70%;width: {}em;font-family:"PixelMPlus12", "Pingfang SC",\"Microsoft Yahei\", \"Wenquanyi Micro Hei\";}}'
-         '</style>'.format(width + 2))
+         '</style>'.format(width + 10))
         , 'lxml'))
 
     # 写入html
     with tempfile.TemporaryDirectory() as tmpdir:
         with open(os.path.join(tmpdir, 'cache.html'), 'w', encoding='utf-8') as fp:
             fp.write(str(new_soup))
+        # with open('cache.html', 'w', encoding='utf-8') as fp:
+        #     fp.write(str(new_soup))
         logging.info("Capturing...")
         driver = webdriver.PhantomJS()
         driver.get(os.path.join(tmpdir, 'cache.html'))
@@ -490,5 +492,6 @@ if __name__ == '__main__':
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
     logging.info("Running...")
-    get_conne_pic(('シビラ', 'リリア', 'テミス', 'スクハ'), 21)
+    inexistence, image = get_conne_pic(('シビラ', ))
+    image.show()
     # get_status_pic('刻詠の風水士リンネ')
