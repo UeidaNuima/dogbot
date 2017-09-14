@@ -1,9 +1,10 @@
 from dogbot.cqsdk import CQBot, RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage
 from mongoengine import connect
+from config import config
 
 # connect('aigis')
 
-bot = CQBot(11235, 12450)
+bot = CQBot(11235, 12450, debug=config.get('debug', False))
 
 # bark!
 from dogbot.bot.listeners.bark import bark
