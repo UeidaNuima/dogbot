@@ -146,7 +146,7 @@ def get_status_pic(name):
     return image
 
 
-def get_conne_pic(names, sorter=None, hidden_fields=[12, 14, 15, 16, 20, 24]):
+def get_conne_pic(names, sorter=None, hidden_fields=[14, 15, 16, 20, 24]):
     """
     获取圆爹dps表的图片. 提供过滤与排序的功能.
     :param names: str list, 圆爹版的单位名称表. str可为正则.
@@ -215,7 +215,7 @@ def get_conne_pic(names, sorter=None, hidden_fields=[12, 14, 15, 16, 20, 24]):
          'td,th{{vertical-align:middle}}'
          'tr.hyde {{display: table-row;}}'
          'body{{font-size: 70%;width: {}em;font-family:"PixelMPlus12", "Pingfang SC",\"Microsoft Yahei\", \"Wenquanyi Micro Hei\";}}'
-         '</style>'.format(width))
+         '</style>'.format(width + 2))
         , 'lxml'))
 
     # 写入html
@@ -362,7 +362,7 @@ def conne_worker(bot, message, names, full=False, sorter=None):
     file_name = 'conne' + str(int(time.time())) + '.png'
     full_path = os.path.join(config['cq_root_dir'], config['cq_image_dir'], file_name)
 
-    hidden_fields = [12, 14, 15, 16, 20, 24]
+    hidden_fields = [14, 15, 16, 20, 24]
     if full:
         hidden_fields = []
     try:
