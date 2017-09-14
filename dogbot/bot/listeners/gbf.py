@@ -10,8 +10,7 @@ GBF_PATTERN = re.compile("(((https|http|ftp|rtsp|mms)?://)"  # 端口
                          "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\."  # 二級域名
                          "[a-z]{2,6})"  # 頂級域名
                          "(:[0-9]{1,4})?"  # 端口
-                         "((/?)|"  # 路徑
-                         "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?))")
+                         "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)*/?)")  # 路徑
 
 match_urls = []
 
@@ -22,6 +21,8 @@ def gbf(bot, message):
         if index > 10:
             return False
         url = match[0]
+        if url.split('.')[-1] in ['png', 'jpg', 'jpeg', 'gif']:
+            return False
         if url not in match_urls:
             resp = requests.get(url)
             if 'granblue' in resp.url:
