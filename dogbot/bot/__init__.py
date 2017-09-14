@@ -52,6 +52,10 @@ bot.add_listener(poster, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessa
 from dogbot.bot.listeners.twitter import twitter
 bot.add_listener(twitter, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 
+# 搞死你們網頁鏈接人
+from dogbot.bot.listeners.gbf import gbf
+bot.add_listener(gbf, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
+
 # twitter定时任务
 from dogbot.bot.twitter import poll_twitter
 bot.scheduler.add_job(poll_twitter, 'interval', args=(bot, ), seconds=30, max_instances=10)
