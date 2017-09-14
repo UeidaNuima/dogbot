@@ -23,7 +23,7 @@ def gbf(bot, message):
             return False
         url = match[0]
         if url not in match_urls:
-            resp = requests.get('url')
+            resp = requests.get(url)
             if 'granblue' in resp.url:
                 match_urls.append(url)
                 reply(bot, message, '碧蓝幻想，请勿访问')
