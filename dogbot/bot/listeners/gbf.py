@@ -2,7 +2,7 @@ import re
 import requests
 from dogbot.cqsdk.utils import reply
 
-GBF_PATTERN = re.compile("^((https|http|ftp|rtsp|mms)?://)"  # 端口
+GBF_PATTERN = re.compile("(((https|http|ftp|rtsp|mms)?://)"  # 端口
                          "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?"  # ftp 用戶密碼
                          "(([0-9]{1,3}\.){3}[0-9]{1,3}"  # IP URL
                          "|"
@@ -11,7 +11,7 @@ GBF_PATTERN = re.compile("^((https|http|ftp|rtsp|mms)?://)"  # 端口
                          "[a-z]{2,6})"  # 頂級域名
                          "(:[0-9]{1,4})?"  # 端口
                          "((/?)|"  # 路徑
-                         "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$")
+                         "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?))")
 
 match_urls = []
 
