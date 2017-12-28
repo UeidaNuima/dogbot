@@ -10,6 +10,7 @@ from mongoengine import connect
 
 from dogbot.cqsdk.utils import reply
 from dogbot.models import *
+from config import config
 
 
 def emoji_base(bot, message):
@@ -83,6 +84,9 @@ def emoji_base(bot, message):
     if not emoji:
         emoji = Emoji()
         emoji.name.append(name)
+    elif emoji.lock == 2 and message.qq not in config['admins']:
+        reply(bot, message, '没有权限！')
+        return True
 
     # 找图片
     files = CQImage.PATTERN.findall(content)
@@ -135,6 +139,7 @@ def emoji_del(bot, message):
         return False
     if not cmd[1:] == 'emoji_del':
         return False
+
     try:
         options, args = getopt.gnu_getopt(args, 'hs:')
     except getopt.GetoptError:
@@ -167,6 +172,10 @@ def emoji_del(bot, message):
 
     if not emoji:
         reply(bot, message, '没找到{}...'.format(args[0]))
+        return True
+
+    if emoji.lock >= 1 and message.qq not in config['admins']:
+        reply(bot, message, '没有权限！')
         return True
 
     if not index:
@@ -237,6 +246,10 @@ def emoji_alias(bot, message):
         reply(bot, message, '找不到名称{}'.format(name))
         return True
 
+    if emoji.lock == 2 and message.qq not in config['admins']:
+        reply(bot, message, '没有权限！')
+        return True
+
     if delete:
         if len(emoji.name) == 1:
             reply(bot, message, '名称{}只含有一个名称了, 如果想要删除该emoji请使用emoji_del命令'.format(name))
@@ -255,6 +268,66 @@ def emoji_alias(bot, message):
         emoji.save()
         reply(bot, message, '{}也是{}的名称了!'.format(name_add, name))
         return True
+
+
+def emoji_lock(bot, message):
+    """#emoji_lock [-d 名称] 等级
+
+    -d 名称 : 要操作的emoji的名称
+    等级    : 锁定等级，0为不锁定，1为不允许删除，2为不允许删除&添加。
+    """
+    try:
+        cmd, *args = shlex.split(message.text)
+    except ValueError:
+        return False
+    if not cmd[0] in config['trigger']:
+        return False
+    if not cmd[1:] == 'emoji_lock':
+        return False
+    
+    if message.qq not in config['admins']:
+        reply(bot, message, '没有权限！')
+        return True
+
+    try:
+        options, args = getopt.gnu_getopt(args, 'hd:')
+    except getopt.GetoptError:
+        # 格式不对
+        reply(bot, message, emoji_alias.__doc__)
+        return True
+
+    if len(args) < 1:
+        reply(bot, message, '没输入等级...')
+        return True
+
+    level = int(args[0])
+    if level not in [0, 1, 2]:
+        reply(bot, message, '等级有误...')
+        return True
+
+    name = None
+
+    for o, a in options:
+        if o == '-d':
+            name = a
+        elif o == '-h':
+            # 帮助
+            reply(bot, message, emoji_alias.__doc__)
+            return True
+
+    if not name:
+        reply(bot, message, emoji_alias.__doc__)
+        return True
+
+    emoji = Emoji.objects(name=name).first()
+    if not emoji:
+        reply(bot, message, '找不到名称{}'.format(name))
+        return True
+
+    emoji.lock = level
+    reply(bot, message, 'emoji[{}]现在为锁定等级{}'.format(name, level))
+    return True
+    
 
 
 EMOJI_PATTERN = re.compile('[\(（](.*?)[\)）]')
