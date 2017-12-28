@@ -329,7 +329,7 @@ def status(bot, message):
         if len(target) > 1:
             msg = '{}不止一个单位...以下列出所有单位名\n'.format(target_name)
             for unit in target:
-                msg += '\n[][{}]{}'.format(RARITY[unit.rarity], unit.class_, unit.name)
+                msg += '\n[{}][{}]{}'.format(RARITY[unit.rarity], unit.class_, unit.name)
             reply(bot, message, msg)
             return True
 
