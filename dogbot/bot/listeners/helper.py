@@ -150,7 +150,7 @@ def help(bot, message):
         return False
     if not cmd[1:] == 'help':
         return False
-    msg = ['ケルベロス ver3.0.1']
+    msg = ['ケルベロス ver3.0.5']
     msg_help = []
     for listener in bot.listeners:
         if listener.handler.__doc__ and listener.handler.__doc__[0] in config['trigger']:
@@ -165,5 +165,3 @@ def help(bot, message):
     msg.append('前导触发器可以是: {}'.format(config['trigger']))
     reply(bot, message, '\n'.join(msg))
     return True
-
-
