@@ -104,7 +104,7 @@
 		}
 	</style>
     <div class="modal-dialog" role="document">
-		<form class="modal-content form-horizontal" id="editor" method="post">
+		<form class="modal-content form-horizontal" id="editor">
             <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<h4 class="modal-title" id="editor-title">Add Row</h4>
@@ -197,6 +197,21 @@
         $editor = $('#editor'),
         $editorTitle = $('#editor-title');
 
+    $editor.on('submit', function(e) {
+        e.preventDefault();
+        var formdata = $editor.serializeArray();
+        formdata = formdata.filter(function(item) {
+            return item.value != '';
+        })
+        $.ajax({
+            method: 'POST',
+            data: formdata,
+            success: function() {
+                location.reload();
+            }
+        })
+    });
+
     function listBadgeFormatter(value, options, rowData) {
         var html = '';
         for(var i = 0; i < value.length; i++){
@@ -221,9 +236,9 @@
         return value[1];
     }
 
-{#    function rarityFromatter(value, options, rowData) {#}
-{#        return #}
-{#    }#}
+// {#    function rarityFromatter(value, options, rowData) {#}
+// {#        return #}
+// {#    }#}
 
     FooTable.init('#unitTable',{
         paging: {

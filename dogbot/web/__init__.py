@@ -51,7 +51,7 @@ def units():
         if not request.form.get('id'):
             unit = Unit(
                 name=request.form.get('name'),
-                rarity=request.form.get('rarity'),
+                rarity=request.form.get('rarity') or None,
                 class_=Class.objects(id=request.form.get('class')).first() if request.form.get('class') else None,
                 nickname=request.form.getlist('nickname'),
                 conne_name=request.form.get('conneName')
