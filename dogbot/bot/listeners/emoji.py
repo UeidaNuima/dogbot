@@ -100,7 +100,7 @@ def emoji_base(bot, message):
         parser = ConfigParser()
         parser.read(cqimg)
         url = parser['image']['url']
-        r = requests.get(url, timeout=30, proxies=config.get('proxies', {}), verify=False)
+        r = requests.get(url.replace('https://', 'http://'), timeout=30, proxies=config.get('proxies', {}))
         # 下载
         if r.status_code > 200:
             reply(bot, message, '下挂了...HTTP{}...网络问题？'.format(r.status_code))
