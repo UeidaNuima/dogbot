@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import getopt
 import requests
 from dogbot.cqsdk import CQImage, RcvdPrivateMessage
+from PIL import Image
 
 from config import config
 from dogbot.cqsdk.utils import reply
@@ -64,8 +65,11 @@ def poster(bot, message):
         if not resp.status_code == 200:
             reply(bot, message, '没找到海报...还没更新或者是网络问题?')
             return True
-        with open(path, 'wb') as f:
-            f.write(resp.content)
+        # 压缩图片
+        img = Image.open(resp.content)
+        img.save(path, quality=40)
+        # with open(path, 'wb') as f:
+        #     f.write(resp.content)
 
     reply(bot, message, CQImage(os.path.join('poster', filename)))
     return True
