@@ -1,4 +1,5 @@
 import os
+import io
 import shlex
 from datetime import datetime, timedelta
 import getopt
@@ -66,7 +67,7 @@ def poster(bot, message):
             reply(bot, message, '没找到海报...还没更新或者是网络问题?')
             return True
         # 压缩图片
-        img = Image.open(resp.content)
+        img = Image.open(io.BytesIO(resp.content))
         img.save(path, quality=40)
         # with open(path, 'wb') as f:
         #     f.write(resp.content)
