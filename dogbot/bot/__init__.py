@@ -39,11 +39,12 @@ bot.add_listener(status, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessa
 bot.add_listener(conne, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 
 # emoji
-from dogbot.bot.listeners.emoji import emoji_base, emoji_del, emoji_alias, emoji_parser
+from dogbot.bot.listeners.emoji import emoji_base, emoji_del, emoji_alias, emoji_parser, emoji_lock
 bot.add_listener(emoji_parser, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 bot.add_listener(emoji_alias, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 bot.add_listener(emoji_del, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 bot.add_listener(emoji_base, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
+bot.add_listener(emoji_lock, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 
 # 海报
 from dogbot.bot.listeners.poster import poster
