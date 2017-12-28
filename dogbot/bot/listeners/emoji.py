@@ -174,7 +174,7 @@ def emoji_del(bot, message):
         reply(bot, message, '没找到{}...'.format(args[0]))
         return True
 
-    if emoji.lock >= 1 and message.qq not in config['admins']:
+    if emoji.lock and emoji.lock >= 1 and message.qq not in config['admins']:
         reply(bot, message, '没有权限！')
         return True
 
@@ -325,6 +325,7 @@ def emoji_lock(bot, message):
         return True
 
     emoji.lock = level
+    emoji.save()
     reply(bot, message, 'emoji[{}]现在为锁定等级{}'.format(name, level))
     return True
     
