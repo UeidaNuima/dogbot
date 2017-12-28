@@ -62,7 +62,7 @@ class Twitter(Document):
 class Emoji(Document):
     name = ListField(StringField(unique=True))
     emoji = ListField(StringField())
-    lock = IntField()
+    lock = IntField(default=0)
 
 
 class Log(Document):
