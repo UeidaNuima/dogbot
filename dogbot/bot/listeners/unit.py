@@ -315,7 +315,7 @@ def status(bot, message):
     # 看看是不是稀有度 + 职业名
     if not target:
         rarity = RARITY.find(target_name[:1])
-        if not rarity == -1:
+        if rarity != -1:
             class_name = target_name[1:]
             class_ = Class.objects(Q(name=class_name) | Q(translate=class_name) | Q(nickname=class_name)).first()
             if not class_:
@@ -327,9 +327,9 @@ def status(bot, message):
     if type(target) == QuerySet:
         # 多于一个结果, 返回结果列表
         if len(target) > 1:
-            msg = '{}不止一个单位...\n'.format(target_name)
+            msg = '{}不止一个单位...以下列出所有单位名\n'.format(target_name)
             for unit in target:
-                msg += '\n{}'.format(unit.name)
+                msg += '\n[][{}]{}'.format(RARITY[unit.rarity], unit.class_, unit.name)
             reply(bot, message, msg)
             return True
 
