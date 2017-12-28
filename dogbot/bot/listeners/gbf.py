@@ -3,7 +3,7 @@ import requests
 from requests.exceptions import  MissingSchema
 from dogbot.cqsdk.utils import reply
 
-GBF_PATTERN = re.compile("(((https|http|ftp|rtsp|mms)?://)"  # 端口
+GBF_PATTERN = re.compile("(((https|http)?://)"  # 端口
                          "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?"  # ftp 用戶密碼
                          "(([0-9]{1,3}\.){3}[0-9]{1,3}"  # IP URL
                          "|"
@@ -29,7 +29,7 @@ def gbf(bot, message):
                 resp = requests.get(url)
             except MissingSchema:
                 resp = requests.get('http://' + url)
-            if 'granblue' in resp.url:
+            if 'granblue' in resp.url or 'gbf.game.mbga' in resp.url:
                 match_urls.append(url)
                 reply(bot, message, '碧蓝幻想，请勿访问')
                 return True
