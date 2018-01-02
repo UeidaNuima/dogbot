@@ -1,5 +1,5 @@
 from dogbot.cqsdk.utils import reply
-from dogbot.bot.cqsdk import GroupBan
+from dogbot.cqsdk import GroupBan
 from config import config
 import shlex
 
