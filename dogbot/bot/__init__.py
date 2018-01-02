@@ -54,6 +54,10 @@ bot.add_listener(poster, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessa
 from dogbot.bot.listeners.twitter import twitter
 bot.add_listener(twitter, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 
+# group_ban
+from  dogbot.bot.listeners.group_ban import group_ban
+bot.add_listener(group_ban, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
+
 # 搞死你們網頁鏈接人
 from dogbot.bot.listeners.gbf import gbf
 bot.add_listener(gbf, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))

@@ -16,4 +16,3 @@ def log(bot, message):
 
     logging.save()
     return False
-
