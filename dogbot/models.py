@@ -10,7 +10,7 @@ class Exp(Document):
     lv = IntField(required=True)
     rarity = IntField(required=True)
     exp = IntField(required=True)
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
 
 class Class(Document):
@@ -20,7 +20,7 @@ class Class(Document):
     cc_material = ListField(ReferenceField('self'))
     awake_material = ListField(ReferenceField('self'))
     awake_orb = ListField(ReferenceField('self'))
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
 
 class Unit(Document):
@@ -29,7 +29,7 @@ class Unit(Document):
     class_ = ReferenceField(Class, db_field='class')
     rarity = IntField()
     conne_name = StringField()
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
 
 class Twitter(Document):
@@ -37,7 +37,7 @@ class Twitter(Document):
     text = StringField(required=True)
     date = DateTimeField(required=True)
     media = ListField(StringField())
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
     def __str__(self):
         for url in self.media:
@@ -54,7 +54,7 @@ class Twitter(Document):
                     f.write(resp.content)
 
         dt = self.date.astimezone(timezone(timedelta(hours=9)))
-        ds = datetime.strftime(dt, "%Y-%m-%d %H:%M:%S JST")
+        ds = datetime.strftime(dt, '%Y-%m-%d %H:%M:%S JST')
         results = [ds, ]
         text = self.text
         text = text.replace('・', '·').replace('✕', '×').replace('#千年戦争アイギス', '').replace('♪', '')
@@ -67,7 +67,7 @@ class Emoji(Document):
     name = ListField(StringField(unique=True))
     emoji = ListField(StringField())
     lock = IntField(default=0)
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
 
 class Log(Document):
@@ -76,10 +76,22 @@ class Log(Document):
     group = StringField()
     discuss = StringField()
     type_ = StringField(required=True, db_field='type')
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
 
 
 class Alias(Document):
     origin = StringField(required=True)
     alias = StringField(required=True, unique=True)
-    meta = {"db_alias": "bot"}
+    meta = {'db_alias': 'bot'}
+
+
+class UnitUnpack(Document):
+    Name = StringField(required=True)
+    HarlemText3 = StringField()
+    Rare = IntField(required=True)
+    meta = {'db_alias': 'unpack', 'collection': 'units'}
+
+    def has_cg3(self):
+        if self.HarlemText3:
+            return True
+        return False

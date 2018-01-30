@@ -1,8 +1,6 @@
 from dogbot.cqsdk import CQBot, RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage
-from mongoengine import connect
 from config import config
 
-# connect('aigis')
 
 bot = CQBot(11235, 12450, debug=config.get('debug', False))
 
@@ -61,6 +59,10 @@ bot.add_listener(group_ban, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMe
 # 搞死你們網頁鏈接人
 from dogbot.bot.listeners.gbf import gbf
 bot.add_listener(gbf, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
+
+# cg3
+from dogbot.bot.listeners.cg3 import cg3
+bot.add_listener(cg3, (RcvdDiscussMessage, RcvdGroupMessage, RcvdPrivateMessage))
 
 # twitter定时任务
 from dogbot.bot.twitter import poll_twitter
