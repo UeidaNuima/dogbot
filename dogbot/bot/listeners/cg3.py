@@ -33,6 +33,6 @@ def cg3(bot, message):
         for target in targets:
             if target.has_cg3():
                 cg3s[target.Rare].append(target.Name)
-        reply(bot, message, '金：\n{0[3]}\n白：{0[4]}\n黑：{0[5]}\n蓝：{0[7]}\n'.format(cg3s))
+        reply(bot, message, '金：\n{0[3]}\n白：\n{0[4]}\n黑：\n{0[5]}\n蓝：\n{0[7]}'.format(cg3s))
         return True
     return True

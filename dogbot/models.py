@@ -89,7 +89,7 @@ class UnitUnpack(Document):
     Name = StringField(required=True)
     HarlemText3 = StringField()
     Rare = IntField(required=True)
-    meta = {'db_alias': 'unpack', 'collection': 'units'}
+    meta = {'db_alias': 'unpack', 'collection': 'units', 'strict': False}
 
     def has_cg3(self):
         if self.HarlemText3:
