@@ -10,6 +10,7 @@ class Exp(Document):
     lv = IntField(required=True)
     rarity = IntField(required=True)
     exp = IntField(required=True)
+    meta = {"db_alias": config.get('db')}
 
 
 class Class(Document):
@@ -19,6 +20,7 @@ class Class(Document):
     cc_material = ListField(ReferenceField('self'))
     awake_material = ListField(ReferenceField('self'))
     awake_orb = ListField(ReferenceField('self'))
+    meta = {"db_alias": config.get('db')}
 
 
 class Unit(Document):
@@ -27,6 +29,7 @@ class Unit(Document):
     class_ = ReferenceField(Class, db_field='class')
     rarity = IntField()
     conne_name = StringField()
+    meta = {"db_alias": config.get('db')}
 
 
 class Twitter(Document):
@@ -34,6 +37,7 @@ class Twitter(Document):
     text = StringField(required=True)
     date = DateTimeField(required=True)
     media = ListField(StringField())
+    meta = {"db_alias": config.get('db')}
 
     def __str__(self):
         for url in self.media:
@@ -63,6 +67,7 @@ class Emoji(Document):
     name = ListField(StringField(unique=True))
     emoji = ListField(StringField())
     lock = IntField(default=0)
+    meta = {"db_alias": config.get('db')}
 
 
 class Log(Document):
@@ -71,8 +76,10 @@ class Log(Document):
     group = StringField()
     discuss = StringField()
     type_ = StringField(required=True, db_field='type')
+    meta = {"db_alias": config.get('db')}
 
 
 class Alias(Document):
     origin = StringField(required=True)
     alias = StringField(required=True, unique=True)
+    meta = {"db_alias": config.get('db')}
