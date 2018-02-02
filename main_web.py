@@ -4,5 +4,5 @@ from config import config
 
 
 if __name__ == '__main__':
-    connect(config.get('db'))
+    connect(config.get('bot_db'), alias="bot")
     app.run(host='0.0.0.0', threaded=True)
