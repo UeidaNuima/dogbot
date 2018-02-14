@@ -255,7 +255,7 @@ def status_worker(bot, message, name, refresh):
             raise e
             return
         image.save(full_path)
-    reply(bot, message, CQImage(os.path.join("unit", name + ".png")))
+    reply(bot, message, str(CQImage(os.path.join("unit", name + ".png"))))
 
 
 def status(bot, message):
