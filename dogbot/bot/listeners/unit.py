@@ -42,10 +42,9 @@ def get_status_pic(name):
         BASE_URL + '?' + parse.urlencode({
             "cmd": "edit",
             "page": name
-        }, encoding="euc-jp"),
+        }, encoding="utf-8"),
         headers=HEADERS
     )
-
 
     # 判断页面是否存在
     match = re.findall("(?<=<textarea name=\"msg\" rows=\"26\" cols=\"100\">)[\s\S]*?(?=</textarea>)", resp.text)
